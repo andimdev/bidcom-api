@@ -40,11 +40,21 @@ export class ProductRepositoryImpl implements ProductRepository {
     qb.skip(filters.offset ?? 0)
     qb.take(filters.limit ?? 20)
 
+    const limit = filters.limit ?? 10
+    const offset = filters.offset ?? 0
+
+    qb.skip(offset)
+    qb.take(limit)
+
     const [items, total] = await qb.getManyAndCount()
 
     return {
       total,
-      items: items.map((i) => this.toDomain(i)),
+      limit,
+      offset,
+      next: offset + limit < total ? `?limit=${limit}&offset=${offset + limit}` : null,
+      prev: offset > 0 ? `?limit=${limit}&offset=${offset - limit}` : null,
+      items: items.map((e) => this.toDomain(e)),
     }
   }
 

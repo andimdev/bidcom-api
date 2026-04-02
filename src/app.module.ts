@@ -6,6 +6,9 @@ import { ProductRepositoryImpl } from '@infrastructure/repositories/product.repo
 import { CreateProductUseCase } from '@application/use-cases/create-product.use-case'
 import { SearchProductsUseCase } from '@application/use-cases/search-product.use-case'
 import { DeleteProductUseCase } from '@application/use-cases/delete-product.use-case'
+import { GetProductUseCase } from '@application/use-cases/get-product.use-case'
+import { UpdateProductUseCase } from '@application/use-cases/update-product.use-case'
+import { ListProductsUseCase } from '@application/use-cases/list-product.use-case'
 
 @Module({
   imports: [
@@ -19,23 +22,16 @@ import { DeleteProductUseCase } from '@application/use-cases/delete-product.use-
   ],
   controllers: [ProductController],
   providers: [
-    { provide: 'ProductRepository', useClass: ProductRepositoryImpl },
-
     {
-      provide: CreateProductUseCase,
-      useFactory: (repo) => new CreateProductUseCase(repo),
-      inject: ['ProductRepository'],
+      provide: 'ProductRepository',
+      useClass: ProductRepositoryImpl,
     },
-    {
-      provide: SearchProductsUseCase,
-      useFactory: (repo) => new SearchProductsUseCase(repo),
-      inject: ['ProductRepository'],
-    },
-    {
-      provide: DeleteProductUseCase,
-      useFactory: (repo) => new DeleteProductUseCase(repo),
-      inject: ['ProductRepository'],
-    },
+    CreateProductUseCase,
+    SearchProductsUseCase,
+    DeleteProductUseCase,
+    GetProductUseCase,
+    UpdateProductUseCase,
+    ListProductsUseCase,
   ],
 })
 

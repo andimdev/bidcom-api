@@ -1,10 +1,27 @@
+import {
+  Injectable,
+  Inject,
+} from '@nestjs/common'
 import { Product } from '@domain/entities/product.entity'
-import { ProductRepository } from '@domain/repositories/product.repository.interface'
+import type { ProductRepository } from '@domain/repositories/product.repository.interface'
 
+@Injectable()
 export class CreateProductUseCase {
-  constructor(private repo: ProductRepository) {}
+  constructor(
+    @Inject('ProductRepository')
+    private repo: ProductRepository,
+  ) {}
 
-  execute(input: any) {
+  async execute(input: any) {
+    const existing = await this.repo.search({
+      name: input.name,
+      limit: 1,
+    })
+
+    if (existing.items.length > 0) {
+      throw new Error('Product with this name already exists')
+    }
+
     const product = Product.create(input)
     return this.repo.create(product)
   }

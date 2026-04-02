@@ -5,13 +5,13 @@ import {
 import type { ProductRepository } from '@domain/repositories/product.repository.interface'
 
 @Injectable()
-export class SearchProductsUseCase {
+export class ListProductsUseCase {
   constructor(
     @Inject('ProductRepository')
     private repo: ProductRepository,
   ) {}
 
-  execute(filters: any) {
-    return this.repo.search(filters)
+  execute(pagination: any) {
+    return this.repo.search(pagination)
   }
 }
