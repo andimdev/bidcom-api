@@ -1,10 +1,11 @@
 import 'reflect-metadata'
 import { DataSource } from 'typeorm'
-import { Product } from './src/products/entities/product.entity'
+import { _env } from './src/config/vars'
+import { ProductOrmEntity } from './src/infrastructure/database/product.orm-entity'
 
 export const AppDataSource = new DataSource({
   type: 'sqlite',
-  database: 'db.sqlite',
-  entities: [Product],
+  database: _env.DATABASE_URL,
+  entities: [ProductOrmEntity],
   migrations: ['src/migrations/*.ts'],
 })
