@@ -3,6 +3,8 @@ import {
   Inject,
 } from '@nestjs/common'
 import { Product } from '@domain/entities/product.entity'
+import { ProductAlreadyExistsError } from '@domain/errors/product.errors'
+import { MissingRequiredFieldsError } from '@domain/errors/product.errors'
 import type { ProductRepository } from '@domain/repositories/product.repository.interface'
 
 @Injectable()
@@ -18,9 +20,14 @@ export class CreateProductUseCase {
       limit: 1,
     })
 
-    if (existing.items.length > 0) {
-      throw new Error('Product with this name already exists')
-    }
+    const required = ['name', 'price', 'category', 'brand']
+    const missing = required.filter((field) => !input[field])
+
+    if (missing.length > 0)
+      throw new MissingRequiredFieldsError(missing)
+
+    if (existing.items.length > 0)
+      throw new ProductAlreadyExistsError(input.name)
 
     const product = Product.create(input)
     return this.repo.create(product)

@@ -3,6 +3,7 @@ import {
   Injectable,
 } from '@nestjs/common'
 import type { ProductRepository } from '@domain/repositories/product.repository.interface'
+import { ProductNotFoundError } from '@domain/errors/product.errors'
 
 @Injectable()
 export class UpdateProductUseCase {
@@ -14,9 +15,8 @@ export class UpdateProductUseCase {
   async execute(id: string, data: any) {
     const product = await this.repo.findById(id)
 
-    if (!product || product.isDeleted()) {
-      throw new Error('Product not found')
-    }
+    if (!product || product.isDeleted())
+      throw new ProductNotFoundError(id)
 
     product.update(data)
 
