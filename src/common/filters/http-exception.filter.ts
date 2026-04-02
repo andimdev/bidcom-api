@@ -13,7 +13,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const ctx = host.switchToHttp()
     const response = ctx.getResponse()
     const request = ctx.getRequest()
-    const traceId = request.headers['x-trace-id']
+    const traceId = request.traceId
 
     if (exception instanceof DomainError) {
       return response.status(exception.statusCode).json({

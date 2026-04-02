@@ -5,13 +5,15 @@ import {
 import { Product } from '@domain/entities/product.entity'
 import { ProductAlreadyExistsError } from '@domain/errors/product.errors'
 import { MissingRequiredFieldsError } from '@domain/errors/product.errors'
+import { CACHE_MANAGER } from '@nestjs/cache-manager'
 import type { ProductRepository } from '@domain/repositories/product.repository.interface'
+import type { Cache } from 'cache-manager'
 
 @Injectable()
 export class CreateProductUseCase {
   constructor(
-    @Inject('ProductRepository')
-    private repo: ProductRepository,
+    @Inject('ProductRepository') private repo: ProductRepository,
+    @Inject(CACHE_MANAGER) private cache: Cache,
   ) {}
 
   async execute(input: any) {
@@ -30,6 +32,9 @@ export class CreateProductUseCase {
       throw new ProductAlreadyExistsError(input.name)
 
     const product = Product.create(input)
-    return this.repo.create(product)
+    const result = await this.repo.create(product)
+    await this.cache.clear()
+
+    return result
   }
 }

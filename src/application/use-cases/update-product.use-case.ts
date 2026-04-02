@@ -2,14 +2,16 @@ import {
   Inject,
   Injectable,
 } from '@nestjs/common'
-import type { ProductRepository } from '@domain/repositories/product.repository.interface'
 import { ProductNotFoundError } from '@domain/errors/product.errors'
+import { CACHE_MANAGER } from '@nestjs/cache-manager'
+import type { ProductRepository } from '@domain/repositories/product.repository.interface'
+import type { Cache } from 'cache-manager'
 
 @Injectable()
 export class UpdateProductUseCase {
   constructor(
-    @Inject('ProductRepository')
-    private repo: ProductRepository,
+    @Inject('ProductRepository') private repo: ProductRepository,
+    @Inject(CACHE_MANAGER) private cache: Cache,
   ) {}
 
   async execute(id: string, data: any) {
@@ -20,6 +22,9 @@ export class UpdateProductUseCase {
 
     product.update(data)
 
-    return this.repo.update(product)
+    const result = await this.repo.update(product)
+    await this.cache.clear()
+
+    return result
   }
 }

@@ -9,6 +9,7 @@ import { DeleteProductUseCase } from '@application/use-cases/delete-product.use-
 import { GetProductUseCase } from '@application/use-cases/get-product.use-case'
 import { UpdateProductUseCase } from '@application/use-cases/update-product.use-case'
 import { ListProductsUseCase } from '@application/use-cases/list-product.use-case'
+import { CacheModule } from '@nestjs/cache-manager'
 
 @Module({
   imports: [
@@ -19,6 +20,10 @@ import { ListProductsUseCase } from '@application/use-cases/list-product.use-cas
       synchronize: true,
     }),
     TypeOrmModule.forFeature([ProductOrmEntity]),
+    CacheModule.register({
+      isGlobal: true,
+      ttl: 60,
+    }),
   ],
   controllers: [ProductController],
   providers: [

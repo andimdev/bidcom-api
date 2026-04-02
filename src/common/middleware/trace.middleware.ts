@@ -1,6 +1,10 @@
 import { randomUUID } from 'crypto'
 
 export function traceMiddleware(req, res, next) {
-  req.headers['x-trace-id'] = req.headers['x-trace-id'] || randomUUID()
+  const traceId = req.headers['x-trace-id'] || randomUUID()
+
+  req.traceId = traceId
+  res.setHeader('x-trace-id', traceId)
+
   next()
 }
