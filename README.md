@@ -247,8 +247,7 @@ Example response:
 ```
 
 ### DELETE - /products/:id
-_Deletes_ a record from database (Actually, the element just stop being visible
-but yet exists virtually)
+_Deletes_ a record from database (The record is not physically removed from the database. it is marked as deleted and excluded from query results.)
 
 Example response:
 ```json
