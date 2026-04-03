@@ -1,0 +1,13 @@
+version: '3.9'
+
+services:
+  api:
+    container_name: bidcom-api
+    build: .
+    ports:
+      - '8000:8000'
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=db.sqlite
+    volumes:
+      - ./database.sqlite:/app/db.sqlite
