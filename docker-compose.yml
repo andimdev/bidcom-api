@@ -7,7 +7,7 @@ services:
     ports:
       - '8000:8000'
     environment:
-      - NODE_ENV=production
+      - PORT=8000
       - DATABASE_URL=db.sqlite
     volumes:
-      - ./database.sqlite:/app/db.sqlite
+      - ./db.sqlite:/app/db.sqlite

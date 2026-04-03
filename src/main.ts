@@ -1,6 +1,9 @@
 import 'reflect-metadata'
 
-import { NestFactory, Reflector } from '@nestjs/core'
+import {
+  NestFactory,
+  Reflector,
+} from '@nestjs/core'
 import { AppModule } from './app.module'
 import { ValidationPipe } from '@nestjs/common'
 import { _env } from '@config/vars'
