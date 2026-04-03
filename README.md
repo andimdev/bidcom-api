@@ -1,98 +1,258 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# bidcom-api
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Overview
+Simple RESTful API built with NestJS, TypeORM, and SQLite.
+Provides a structured product management service with full CRUD capabilities, filtering, pagination, and soft deletion.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Project setup
-
-```bash
-$ npm install
+## Environment
+Be sure to create an .env file before you start the installation process. You
+can use .env.template as a reference (this step is mandatory and
+necessary to continue)
+```js
+PORT=8000
+DATABASE_URL="db.sqlite"
 ```
 
-## Compile and run the project
+## Installation and setup
+### 1. Manual Setup
+After cloning the repository, the necessary dependencies must be installed
+using your preferred package manager
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm install
+or
+yarn install
+or
+pnpm install
 ```
 
-## Run tests
-
+#### Migrations
+Next step is to run the migrations:
+- Generate migrations:
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm run migration:generate
 ```
-
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
+- Run migrations:
 ```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
+npm run migration:run
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+#### Testing
+Now you can run the tests and start the server:
+- tests
+```bash
+npm run test # If you want to run all the tests
+npm run test:e2e # If you just want to run e2e test
+```
 
-## Resources
+#### Running server
+- Production build:
+```bash
+npm run build
+npm run start
+```
 
-Check out a few resources that may come in handy when working with NestJS:
+- Development:
+```bash
+npm run start:dev
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### 2. Using docker
+You can use docker compose and start the server using a container with just few steps:
 
-## Support
+- Create the build
+```bash
+docker compose build # You can use the flag --no-cache here
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+- Mount the container:
+```bash
+docker compose up
+```
 
-## Stay in touch
+## Accesing the server
+Once you complete the installation process, the server is deployed at:
+> PORT 8000
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+### API Routes
 
-## License
+- GET     http://localhost:8000/products
+- POST    http://localhost:8000/products
+- GET     http://localhost:8000/products/search
+- GET     http://localhost:8000/products/:id
+- PUT     http://localhost:8000/products/:id
+- PATCH   http://localhost:8000/products/:id
+- DELETE  http://localhost:8000/products/:id
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### GET - /products
+Returns a list with the items stored in database. You can use the limit
+and offset query paramters to change pagination
+
+Example response:
+```json
+{
+  "traceId": "ID",
+  "data": {
+    "total": 1,
+    "limit": 10,
+    "offset": 1,
+    "next": null,
+    "prev": null,
+    "items": []
+  }
+}
+```
+
+### POST - /products
+Creates a new product record in the database
+
+Required props:
+- name
+- price
+- category
+- brand
+
+> It also validates if a product name was already registered
+
+Example response:
+```json
+// Successful registration:
+{
+  "traceId": "ID",
+  "data": {
+    "id": "ID",
+    "name": "Product",
+    "description": null,
+    "price": 1,
+    "stock": 0,
+    "category": "Category",
+    "brand": "Brand",
+    "createdAt": "Date",
+    "updatedAt": null,
+    "deletedAt": null
+  }
+}
+// Product already exists:
+{
+  "statusCode": 409,
+  "code": "PRODUCT_ALREADY_EXISTS",
+  "message": "Product with name \"Product\" already exists",
+  "traceId": "ID"
+}
+```
+
+### GET - /products/search
+Retrieves items applying parameters given by the user
+
+Search parameters:
+- name
+- brand
+- category
+- limit
+- offset
+
+Example response:
+```json
+{
+  "traceId": "ID",
+  "data": {
+    "total": 1,
+    "limit": 1,
+    "offset": 0,
+    "next": null,
+    "prev": null,
+    "items": [
+      {
+        "id": "ID",
+        "name": "Product",
+        "description": "Description",
+        "price": 1,
+        "stock": 1,
+        "category": "Category",
+        "brand": "Brand",
+        "createdAt": "Date",
+        "updatedAt": null,
+        "deletedAt": null
+      }
+    ]
+  }
+}
+```
+
+### GET - /products/:id
+Allows the user to search an specific product by the given id
+
+Example response:
+
+```json
+{
+  "traceId": "ID",
+  "data": {
+    "id": "ID",
+    "name": "Product",
+    "description": "Description",
+    "price": 1,
+    "stock": 1,
+    "category": "Category",
+    "brand": "Brand",
+    "createdAt": "Date",
+    "updatedAt": null,
+    "deletedAt": null
+  }
+}
+```
+
+### PUT - /products/:id
+Can be used to replace product's data sending a new payload
+
+Example response:
+```json
+{
+  "traceId": "ID",
+  "data": {
+    "id": "ID",
+    "name": "New product",
+    "description": null,
+    "price": 10,
+    "stock": 10,
+    "category": "Category",
+    "brand": "Brand",
+    "createdAt": "Date",
+    "updatedAt": "Date",
+    "deletedAt": null
+  }
+}
+```
+
+### PATCH - /products/:id
+Updates partially a record
+
+Example response:
+```json
+{
+  "traceId": "ID",
+  "data": {
+    "id": "ID",
+    "name": "Product",
+    "description": "DEscription",
+    "price": 1,
+    "stock": 1,
+    "category": "Category",
+    "brand": "Brand",
+    "createdAt": "Date",
+    "updatedAt": "Date",
+    "deletedAt": null
+  }
+}
+```
+
+### DELETE - /products/:id
+_Deletes_ a record from database (Actually, the element just stop being visible
+but yet exists virtually)
+
+Example response:
+```json
+{
+  "traceId": "ID"
+}
+```
